@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roumanie — Planning 7 jours</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bucarest: #C45B3F;
+  --bucarest-soft: #F2D9D0;
+  --bucarest-bg: #FDF5F2;
+  --transylvanie: #2D6A4F;
+  --transylvanie-soft: #C8E6D5;
+  --transylvanie-bg: #F0F9F3;
+  --mernoire: #1B6B9A;
+  --mernoire-soft: #C2DFF0;
+  --mernoire-bg: #EFF7FC;
+  --dark: #1a1a1a;
+  --grey: #6b6b6b;
+  --light-grey: #f5f4f1;
+  --cream: #faf9f6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ====== HEADER ====== */
+.header {
+  padding: 48px 40px 36px;
+  text-align: center;
+  position: relative;
+}
+
+.header-flag {
+  display: inline-flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.header-flag span {
+  width: 28px;
+  height: 18px;
+  display: block;
+}
+.flag-blue { background: #002B7F; }
+.flag-yellow { background: #FCD116; }
+.flag-red { background: #CE1126; }
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(32px, 5vw, 52px);
+  letter-spacing: -1.5px;
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+
+.header-meta {
+  font-size: 14px;
+  color: var(--grey);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.header-meta strong {
+  color: var(--dark);
+  font-weight: 600;
+}
+
+/* ====== LEGEND ====== */
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin: 0 40px 32px;
+  padding: 14px 0;
+  border-top: 1px solid #e5e3de;
+  border-bottom: 1px solid #e5e3de;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--grey);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* ====== TIMELINE ====== */
+.timeline {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+  position: relative;
+}
+
+/* Vertical spine */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 55px;
+  top: 0;
+  bottom: 60px;
+  width: 2px;
+  background: #e0ded9;
+}
+
+/* ====== DAY CARD ====== */
+.day {
+  position: relative;
+  margin-bottom: 20px;
+  padding-left: 88px;
+  opacity: 0;
+  transform: translateY(24px);
+  animation: fadeUp 0.5s ease forwards;
+}
+
+.day:nth-child(1) { animation-delay: 0.1s; }
+.day:nth-child(2) { animation-delay: 0.2s; }
+.day:nth-child(3) { animation-delay: 0.3s; }
+.day:nth-child(4) { animation-delay: 0.4s; }
+.day:nth-child(5) { animation-delay: 0.5s; }
+.day:nth-child(6) { animation-delay: 0.6s; }
+.day:nth-child(7) { animation-delay: 0.7s; }
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Day number on the spine */
+.day-marker {
+  position: absolute;
+  left: 0;
+  top: 18px;
+  width: 42px;
+  text-align: center;
+}
+
+.day-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  width: 42px;
+  height: 42px;
+  line-height: 42px;
+  border-radius: 50%;
+  color: #fff;
+  position: relative;
+  z-index: 2;
+}
+
+/* Connector dot on spine */
+.day-marker::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  z-index: 2;
+}
+
+/* ====== CARD BODY ====== */
+.day-card {
+  border-radius: 14px;
+  padding: 22px 26px 20px;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.day-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+  transform: translateY(-2px);
+}
+
+/* Color stripe left */
+.day-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 4px;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Split cards get a second stripe */
+.day-card.split::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  bottom: 14px;
+  width: 4px;
+  border-radius: 0 3px 3px 0;
+}
+
+.day-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.day-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.3px;
+}
+
+.day-location {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+/* Tags row */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.2px;
+}
+
+/* Description */
+.day-desc {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.day-desc strong {
+  color: var(--dark);
+  font-weight: 600;
+}
+
+/* Bottom info row */
+.day-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  font-size: 12px;
+  color: var(--grey);
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.info-icon {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.info-label {
+  font-weight: 300;
+  margin-right: 2px;
+}
+
+.info-value {
+  font-weight: 600;
+  color: var(--dark);
+}
+
+/* ====== TRANSPORT CONNECTOR ====== */
+.transport {
+  margin: -6px 0 -6px 88px;
+  padding: 6px 0 6px 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--grey);
+  font-weight: 400;
+}
+
+.transport::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: repeating-linear-gradient(180deg, #ccc 0px, #ccc 4px, transparent 4px, transparent 8px);
+}
+
+.transport-arrow {
+  font-size: 13px;
+  opacity: 0.5;
+}
+
+/* ====== COLOR SCHEMES ====== */
+/* Bucarest */
+.bucarest .day-num { background: var(--bucarest); }
+.bucarest .day-marker::after { background: var(--bucarest); border-color: var(--cream); }
+.bucarest .day-card { background: var(--bucarest-bg); }
+.bucarest .day-card::before { background: var(--bucarest); }
+.bucarest .day-title { color: var(--bucarest); }
+.bucarest .day-location { background: var(--bucarest-soft); color: var(--bucarest); }
+.bucarest .tag { background: rgba(196,91,63,0.1); color: #a04530; }
+
+/* Transylvanie */
+.transylvanie .day-num { background: var(--transylvanie); }
+.transylvanie .day-marker::after { background: var(--transylvanie); border-color: var(--cream); }
+.transylvanie .day-card { background: var(--transylvanie-bg); }
+.transylvanie .day-card::before { background: var(--transylvanie); }
+.transylvanie .day-title { color: var(--transylvanie); }
+.transylvanie .day-location { background: var(--transylvanie-soft); color: var(--transylvanie); }
+.transylvanie .tag { background: rgba(45,106,79,0.1); color: #1e5a3f; }
+
+/* Mer Noire */
+.mernoire .day-num { background: var(--mernoire); }
+.mernoire .day-marker::after { background: var(--mernoire); border-color: var(--cream); }
+.mernoire .day-card { background: var(--mernoire-bg); }
+.mernoire .day-card::before { background: var(--mernoire); }
+.mernoire .day-title { color: var(--mernoire); }
+.mernoire .day-location { background: var(--mernoire-soft); color: var(--mernoire); }
+.mernoire .tag { background: rgba(27,107,154,0.1); color: #155a80; }
+
+/* Split day: Bucarest → Transylvanie */
+.split-buc-transylvanie .day-num {
+  background: linear-gradient(135deg, var(--bucarest) 50%, var(--transylvanie) 50%);
+}
+.split-buc-transylvanie .day-marker::after {
+  background: linear-gradient(135deg, var(--bucarest) 50%, var(--transylvanie) 50%);
+  border-color: var(--cream);
+}
+.split-buc-transylvanie .day-card {
+  background: linear-gradient(180deg, var(--bucarest-bg) 0%, var(--transylvanie-bg) 100%);
+}
+.split-buc-transylvanie .day-card::before { background: var(--bucarest); }
+.split-buc-transylvanie .day-card.split::after { background: var(--transylvanie); }
+.split-buc-transylvanie .day-title { color: var(--dark); }
+/* Split day: Transylvanie → Mer Noire */
+.split-trans-mer .day-num {
+  background: linear-gradient(135deg, var(--transylvanie) 50%, var(--mernoire) 50%);
+}
+.split-trans-mer .day-marker::after {
+  background: linear-gradient(135deg, var(--transylvanie) 50%, var(--mernoire) 50%);
+  border-color: var(--cream);
+}
+.split-trans-mer .day-card {
+  background: linear-gradient(180deg, var(--transylvanie-bg) 0%, var(--mernoire-bg) 100%);
+}
+.split-trans-mer .day-card::before { background: var(--transylvanie); }
+.split-trans-mer .day-card.split::after { background: var(--mernoire); }
+.split-trans-mer .day-title { color: var(--dark); }
+
+/* Split day: Mer Noire → Bucarest */
+.split-mer-buc .day-num {
+  background: linear-gradient(135deg, var(--mernoire) 50%, var(--bucarest) 50%);
+}
+.split-mer-buc .day-marker::after {
+  background: linear-gradient(135deg, var(--mernoire) 50%, var(--bucarest) 50%);
+  border-color: var(--cream);
+}
+.split-mer-buc .day-card {
+  background: linear-gradient(180deg, var(--mernoire-bg) 0%, var(--bucarest-bg) 100%);
+}
+.split-mer-buc .day-card::before { background: var(--mernoire); }
+.split-mer-buc .day-card.split::after { background: var(--bucarest); }
+.split-mer-buc .day-title { color: var(--dark); }
+
+/* ====== BUDGET FOOTER ====== */
+.budget-footer {
+  max-width: 920px;
+  margin: 0 auto 60px;
+  padding: 0 24px;
+}
+
+.budget-bar {
+  background: var(--dark);
+  border-radius: 14px;
+  padding: 28px 32px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.budget-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.budget-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  flex: 1;
+}
+
+.budget-item {
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.55);
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.budget-item span {
+  color: #fff;
+  font-weight: 600;
+}
+
+.budget-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255,255,255,0.15);
+}
+
+.budget-total {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.budget-total-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.budget-total-amount {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #FCD116, #f0a030);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 700px) {
+  .header { padding: 32px 20px 24px; }
+  .timeline { padding: 0 12px 40px; }
+  .timeline::before { left: 32px; }
+  .day { padding-left: 62px; }
+  .day-marker { left: 0; }
+  .day-marker::after { right: -14px; }
+  .transport { margin-left: 62px; }
+  .legend { gap: 16px; flex-wrap: wrap; justify-content: center; margin: 0 20px 24px; }
+  .budget-bar { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .budget-divider { width: 100%; height: 1px; }
+  .day-info { gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-flag">
+    <span class="flag-blue"></span>
+    <span class="flag-yellow"></span>
+    <span class="flag-red"></span>
+  </div>
+  <h1>Roumanie, Juillet 2026</h1>
+  <div class="header-meta">
+    <strong>10 personnes</strong> &middot; 7 jours &middot; Train & Bus &middot; Sans voiture
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--bucarest)"></div>
+    Bucarest
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--transylvanie)"></div>
+    Transylvanie
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--mernoire)"></div>
+    Mer Noire
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline">
+
+  <!-- ==================== JOUR 1 ==================== -->
+  <div class="day bucarest">
+    <div class="day-marker"><div class="day-num">1</div></div>
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-title">Arrivée & premières vibrations</div>
+        <div class="day-location">Bucarest</div>
+      </div>
+      <div class="tags">
+        <span class="tag">Centru Vechi</span>
+        <span class="tag">Palais du Parlement</span>
+        <span class="tag">Street food</span>
+        <span class="tag">Soirée d'arrivée</span>
+      </div>
+      <div class="day-desc">
+        Atterrissage à <strong>Henri Coandă</strong>, transfert en bus express vers le centre (4 €). Installation à l'auberge dans le <strong>Centru Vechi</strong>. Balade dans le vieux centre : Palais du Parlement, Calea Victoriei, parc Herăstrău. Le soir, première soirée roumaine dans les bars du Centru Vechi — bière à 2 €, cocktails à 5 €. Ambiance garantie.
+      </div>
+      <div class="day-info">
+        <div class="info-item">
+          <span class="info-icon">&#9992;</span>
+          <span class="info-label">Trajet</span>
+          <span class="info-value">Vol Paris → Bucarest</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">&#9968;</span>
+          <span class="info-label">Logement</span>
+          <span class="info-value">Auberge de jeunesse ~12-18 €/nuit/pers</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">&#9749;</span>
+          <span class="info-label">Repas</span>
+          <span class="info-value">~15-20 €/jour</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transport connector -->
+  <div class="transport">
+    <span class="transport-arrow">&#8595;</span>
+    Train direct &middot; Bucarest Nord → Brașov &middot; <strong>~2h30</strong> &middot; 8-15 €/pers
+  </div>
+
+  <!-- ==================== JOUR 2 ==================== -->
+  <div class="day split-buc-transylvanie">
+    <div class="day-marker"><div class="day-num">2</div></div>
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-title">Brașov, cœur de la Transylvanie</div>
+        <div class="day-location">Brașov</div>
+      </div>
+      <div class="tags">
+        <span class="tag">Piața Sfatului</span>
+        <span class="tag">Église Noire</span>
+        <span class="tag">Téléphérique Tâmpa</span>
+        <span class="tag">Ruelles médiévales</span>
+      </div>
+      <div class="day-desc">
+        Arrivée à <strong>Brașov</strong> en fin de matinée. La place du Conseil et ses façades colorées, l'imposante <strong>Église Noire</strong> (plus grand édifice gothique de Transylvanie), montée en téléphérique sur la colline Tâmpa pour un panorama à 360°. Le soir, restos roumains dans le centre — testez les <strong>mici</strong> et la <strong>ciorbă</strong>. Ville très animée la nuit.
+      </div>
+      <div class="day-info">
+        <div class="info-item">
+          <span class="info-icon">&#128739;</span>
+          <span class="info-label">Logement</span>
+          <span class="info-value">Auberge ou pension ~15-22 €/nuit/pers</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">&#9749;</span>
+          <span class="info-label">Repas</span>
+          <span class="info-value">~12-18 €/jour</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">&#127915;</span>
+          <span class="info-label">Visites</span>
+          <span class="info-value">Église ~5 € · Téléphérique ~8 €</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JOUR 3 ==================== -->
+  <div class="day transylvanie">
+    <div class="day-marker"><div class="day-num">3</div></div>
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-title">Châteaux & légendes</div>
+        <div class="day-location">Bran · Sighișoara</div>
+      </div>
+      <div class="tags">
+        <span class="tag">Château de Bran (Dracula)</span>
+        <span class="tag">Sighișoara UNESCO</span>
+        <span class="tag">Citadelle médiévale</span>
+        <span class="tag">Tour de l'Horloge</span>
+      </div>
+      <div class="day-desc">
+        Matinée : bus vers le <strong>Château de Bran</strong> (45 min, 3 €), la forteresse qui a inspiré Dracula. Retour à Brașov puis bus vers <strong>Sighișoara</strong> (~2h). Arrivée en fin d'après-midi dans cette citadelle classée <strong>UNESCO</strong> — ruelles pavées, maisons colorées, escalier couvert de 176 marches. Dîner dans la maison natale de Vlad Dracul.
+      </div>
+      <div class="day-info">
+        <div class="info-item">
+          <span class="info-icon">&#128652;</span>
+          <span class="info-label">Trajets</span>
+          <span class="info-value">Bus Brașov→Bran 3 € · Bus Brașov→Sighișoara 5-10 €</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">&#128739;</span>
+          <span class="info-label">Logement</span>
+          <span class="info-value">Pension à Sighișoara ~15-20 €/nuit/pers</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">&#127915;</span>
+          <span class="info-label">Entrées</span>
+          <span class="info-value">Château de Bran ~10 €</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transport connector -->
+  <div class="transport">
+    <span class="transport-arrow">&#8595;</span>
+    Train direct &middot; Sighișoara → Brașov → Constanța &middot; <strong>~6h</strong> &middot; 20-30 €/pers &middot; Départ matinal
+  </div>
+
+  <!-- ==================== JOUR 4 ==================== -->
+  <div class="day split-trans-mer">
+    <div class="day-marker"><div class="day-num">4</div></div>
+    <div class="day-card split">
+      <div class="day-header">
+        <div class="day-title">Des montagnes à la mer</div>
+        <div class="day-location" style="background:var(--transylvanie-soft);color:var(--transylvanie);">Sighișoara</div>
+        <span style="font-size:14px;color:#aaa;">→</span>
+        <div class="day-location" style="background:var(--mernoire-soft);color:var(--mernoire);">Constanța · Mamaia</div>
+      </div>
+      <div class="tags">
+        <span class="tag" style="background:rgba(45,106,79,0.1);color:#1e5a3f;">Paysages des Carpates</span>
+        <span class="tag" style="background:rgba(27,107,154,0.1);color:#155a80;">Constanța vieille ville</span>
+        <span class="tag" style="background:rgba(27,107,154,0.1);color:#155a80;">Casino Art Nouveau</span>
+        <span class="tag" style="background:rgba(27,107,154,0.1);color:#155a80;">Première plage</span>
+      </div>
+      <div class="day-desc">
+        Journée de transition. Départ matinal en train — les paysages défilent, des montagnes vertes aux plaines du Danube. Arrivée à <strong>Constanța</strong> en début d'après-midi. Balade sur le front de mer, façade somptueuse du <strong>Casino Art Nouveau</strong>, mosquée, vieille ville. Puis navette vers <strong>Mamaia</strong> (15 min). Premier coucher de soleil sur la Mer Noire.
+      </div>
+      <div class="day-info">
+        <div class="info-item">
+          <span class="info-icon">&#128739;</span>
+          <span class="info-label">Logement</span>
+          <span class="info-value">Airbnb / hôtel Mamaia Nord ~20-30 €/nuit/pers</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">&#9749;</span>
+          <span class="info-label">Repas</span>
+          <span class="info-value">~15-20 €/jour (fruits de mer !)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JOUR 5 ==================== -->
+  <div class="day mernoire">
+    <div class="day-marker"><div class="day-num">5</div></div>
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-title">Beach mode : plage & clubs</div>
+        <div class="day-location">Mamaia</div>
+      </div>
+      <div class="tags">
+        <span class="tag">Plage 8 km de sable</span>
+        <span class="tag">Fratelli Beach Club</span>
+        <span class="tag">Nuba Beach</span>
+        <span class="tag">DJs internationaux</span>
+        <span class="tag">Jet-ski</span>
+      </div>
+      <div class="day-desc">
+        Journée 100% plage et fête. Transats dans un <strong>beach club</strong> (Fratelli, Nuba ou Loft) avec bar sur la plage et musique toute la journée. Baignade dans la Mer Noire, jet-ski ou paddle. Le soir, les clubs ouvrent : <strong>Fratelli Club</strong>, <strong>Ego Club</strong>, soirées jusqu'au lever du soleil. L'ambiance « Ibiza de l'Est » à prix roumains.
+      </div>
+      <div class="day-info">
+        <div class="info-item">
+          <span class="info-icon">&#127958;</span>
+          <span class="info-label">Transats</span>
+          <span class="info-value">13-25 €/jour (parasol inclus)</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">&#127926;</span>
+          <span class="info-label">Clubs</span>
+          <span class="info-value">Entrée gratuite → 15 € · Conso 5-8 €</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">&#9749;</span>
+          <span class="info-label">Repas</span>
+          <span class="info-value">~18-25 €/jour</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JOUR 6 ==================== -->
+  <div class="day split-mer-buc">
+    <div class="day-marker"><div class="day-num">6</div></div>
+    <div class="day-card split">
+      <div class="day-header">
+        <div class="day-title">Dernière plage & retour capitale</div>
+        <div class="day-location" style="background:var(--mernoire-soft);color:var(--mernoire);">Mamaia</div>
+        <span style="font-size:14px;color:#aaa;">→</span>
+        <div class="day-location" style="background:var(--bucarest-soft);color:var(--bucarest);">Bucarest</div>
+      </div>
+      <div class="tags">
+        <span class="tag" style="background:rgba(27,107,154,0.1);color:#155a80;">Matinée plage</span>
+        <span class="tag" style="background:rgba(27,107,154,0.1);color:#155a80;">Brunch beach club</span>
+        <span class="tag" style="background:rgba(196,91,63,0.1);color:#a04530;">Soirée d'adieu Bucarest</span>
+        <span class="tag" style="background:rgba(196,91,63,0.1);color:#a04530;">Rooftop bars</span>
+      </div>
+      <div class="day-desc">
+        Matinée chill sur la plage ou brunch au bord de l'eau. Train de l'après-midi pour <strong>Bucarest</strong> (~2h15). Arrivée en soirée, installation à l'auberge. <strong>Dernière soirée</strong> dans la capitale : rooftop bars, Centru Vechi, ou club (Expirat, Control). On clôture la semaine en beauté.
+      </div>
+      <div class="day-info">
+        <div class="info-item">
+          <span class="info-icon">&#128646;</span>
+          <span class="info-label">Trajet</span>
+          <span class="info-value">Train Constanța → Bucarest ~2h15 · 8-15 €</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">&#128739;</span>
+          <span class="info-label">Logement</span>
+          <span class="info-value">Auberge Bucarest ~12-18 €/nuit/pers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JOUR 7 ==================== -->
+  <div class="day bucarest">
+    <div class="day-marker"><div class="day-num">7</div></div>
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-title">Départ & Therme</div>
+        <div class="day-location">Bucarest</div>
+      </div>
+      <div class="tags">
+        <span class="tag">Therme București</span>
+        <span class="tag">Shopping souvenirs</span>
+        <span class="tag">Derniers mici</span>
+        <span class="tag">Vol retour</span>
+      </div>
+      <div class="day-desc">
+        Selon l'heure du vol : matinée aux <strong>Therme București</strong> (piscines, toboggans, jacuzzis, zone tropicale — à 15 min de l'aéroport, ~25 €). Derniers achats au marché, dernier repas roumain. Transfert vers l'aéroport et vol retour. Fin d'une semaine inoubliable.
+      </div>
+      <div class="day-info">
+        <div class="info-item">
+          <span class="info-icon">&#127858;</span>
+          <span class="info-label">Therme</span>
+          <span class="info-value">~25 €/pers</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">&#9992;</span>
+          <span class="info-label">Trajet</span>
+          <span class="info-value">Vol Bucarest → Paris</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BUDGET FOOTER -->
+<div class="budget-footer">
+  <div class="budget-bar">
+    <div class="budget-title">Budget / personne</div>
+    <div class="budget-items">
+      <div class="budget-item">Vol A/R <span>50-150 €</span></div>
+      <div class="budget-item">Hébergement 7 nuits <span>110-200 €</span></div>
+      <div class="budget-item">Transports sur place <span>50-80 €</span></div>
+      <div class="budget-item">Repas & sorties <span>140-230 €</span></div>
+      <div class="budget-item">Visites <span>30-50 €</span></div>
+      <div class="budget-item">Plage & clubs <span>40-80 €</span></div>
+    </div>
+    <div class="budget-divider"></div>
+    <div class="budget-total">
+      <div class="budget-total-label">Total estimé</div>
+      <div class="budget-total-amount">420 – 790 €</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
